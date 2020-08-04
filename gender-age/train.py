@@ -24,11 +24,9 @@ import fmobilenet
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-AGE=100
-
+AGE=100       #age num class
 
 args = None
-
 
 class AccMetric(mx.metric.EvalMetric):
   def __init__(self):
@@ -61,9 +59,7 @@ class LossValueMetric(mx.metric.EvalMetric):
   def update(self, labels, preds):
     loss = preds[-1].asnumpy()[0]
     self.sum_metric += loss
-    self.num_inst += 1.0
-    gt_label = preds[-2].asnumpy()
-    #print(gt_label)
+    self.num_inst += 1
 
 class MAEMetric(mx.metric.EvalMetric):
   def __init__(self):
