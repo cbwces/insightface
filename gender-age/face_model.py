@@ -14,7 +14,7 @@ import cv2
 import sklearn
 from sklearn.decomposition import PCA
 from time import sleep
-from easydict import EasyDict as edict
+# from easydict import EasyDict as edict
 from mtcnn_detector import MtcnnDetector
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'common'))
 import face_image
@@ -43,10 +43,11 @@ def get_model(ctx, image_size, model_str, layer):
 class FaceModel:
   def __init__(self, args):
     self.args = args
-    if args.gpu>=0:
-      ctx = mx.gpu(args.gpu)
-    else:
-      ctx = mx.cpu()
+    # if args.gpu>=0:
+      # ctx = mx.gpu(args.gpu)
+    # else:
+      # ctx = mx.cpu()
+    ctx = mx.cpu()
     _vec = args.image_size.split(',')
     assert len(_vec)==2
     image_size = (int(_vec[0]), int(_vec[1]))
@@ -64,7 +65,6 @@ class FaceModel:
     else:
       detector = MtcnnDetector(model_folder=mtcnn_path, ctx=ctx, num_worker=1, accurate_landmark = True, threshold=[0.0,0.0,0.2])
     self.detector = detector
-
 
   def get_input(self, face_img):
     ret = self.detector.detect_face(face_img, det_type = self.args.det)
